@@ -1,0 +1,156 @@
+(defpoll date_hours_minutes :interval "5s" "date +%R")
+(defpoll date_day :interval "30m" "date +%d")
+(defpoll date_month :interval "24h" "date +%B")
+(defpoll date_year :interval "24h" "date +%Y")
+
+(defvar date_revealed false)
+
+(deflisten workspace "src/workspaces.sh")
+(deflisten pulseaudio-volume "src/pulseaudio.sh")
+
+
+(defwidget date []
+  (box  
+    :class "content"
+    :orientation "h" 
+    :space-evenly "false" 
+    :vexpand "false" 
+    :hexpand "false" 
+    :spacing 0
+        (eventbox
+          :class "content"
+          :onhover "${EWW_CMD} update date_revealed=true" 
+          :onhoverlost "${EWW_CMD} update date_revealed=false" 
+
+          (box
+            :orientation "h"
+            :space-evenly "false"
+            :spacing 0
+            :valign "center"
+            
+            (label 
+              :class "time_class" 
+              :valign "center" 
+              :halign "center"
+              :wrap "false" 
+              :text date_hours_minutes)
+            
+            (revealer
+              :reveal date_revealed
+              :transition "slideright"
+              :duration "350ms"
+              
+              (label 
+                :class "revealed_content"
+                :valign "center" 
+                :halign "center"
+                :wrap "false" 
+                :text `${date_day} ${date_month} ${date_year}`))))))
+
+
+(defwidget battery_text []
+  (box
+    :class "content"
+    :orientation "h"
+    :space-evenly :"false"
+    :spacing 0
+    :valign "fill"
+    :halign "center"
+    
+      (label 
+        :class "battery_class"
+        :valign "center" 
+        :hexpand "false"
+        :wrap "false" 
+        :text "Battery: ${EWW_BATTERY['BAT0']['capacity']}%")))
+
+(defwidget workspaces []
+
+  (box
+    :class "content"
+    :orientation "h"
+    :space-evenly :"false"
+    :spacing 0
+    :valign "center"
+
+      (literal
+        :content workspace)))
+
+(defwidget central []
+  (box
+    :class "central"
+    :valign "fill"
+    :halign "center"
+    :vexpand "false"
+    :hexpand "true"
+
+      (date)
+      ))
+
+(defwidget right []
+
+  (box
+    :class "right"
+    :valign "fill"
+    :halign "end"
+    :vexpand "false"
+    :hexpand "true"
+    :space-evenly "false"
+    :spacing 10
+      (battery_text)
+      (separator)
+      (pulseaudio)))
+
+(defwidget left []
+
+  (box
+    :class "left"
+    :valign "fill"
+    :halign "start"
+    :vexpand "false"
+    :hexpand "false"
+
+      (workspaces)))
+
+(defwidget pulseaudio []
+  (box
+    :class 'pulseaudio'
+    'Sound: ${pulseaudio-volume}'
+  )
+)
+
+(defwidget separator []
+  (box    
+      :class "separator" 
+      :vexpand "false" :hexpand "false"
+  (label 
+        :text "|")))
+
+
+(defwidget main []
+  (box 
+      :class "main_class"
+      :orientation "h"
+      :width 100
+      :space-evenly "true"
+      :halign "baseline"
+      :valign "baseline"
+
+  (left)
+  (central)
+  (right)
+))
+
+(defwindow main
+            :monitor 0
+            :geometry (geometry
+                              :x "0%"
+                              :y "0px"
+                              :width "100%"
+                              :height "40px"
+                              :anchor "top center")
+            :stacking "fg"
+            :exclusive true
+            :focusable false
+            :wm-ignore false
+    (main))

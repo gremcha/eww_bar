@@ -1,0 +1,70 @@
+$transparent: rgba(0, 0, 0, 0);
+$dark-color: rgba(33, 35, 38, 0.8);
+$base-color: rgb(123, 44, 139);
+$not-active-ws-color: rgba(123, 44, 139, 0.333);
+$bg-color: rgba(0, 0, 0, 0.8);
+$text-color: #bec8da;
+
+* {
+    all: unset;
+    font-family: Azeret Mono;
+    font-size: 14px;
+    color: $text-color;
+    padding: 0;
+    margin: 0;
+}
+
+main,
+left_bar {
+    background-color: $bg-color;
+}
+
+.main_class {
+    background-color: $bg-color;
+    padding: 5px;
+}
+
+.left {
+    background-color: $transparent;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+.right {
+    background-color: $base-color;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.central {
+    background-color: $base-color;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.revealed_content {
+    margin: 0 0 0 20px;
+    font-family: Azeret Mono;
+}
+
+.background {
+    background-color: $transparent;
+    border-radius: 0px;
+}
+
+.workspace_class {
+    margin: 3px 0;
+}
+
+.occupied_ws {
+    padding: 0px 10px;
+}
+
+.active_ws {
+    padding: 3px 20px;
+    border-radius: 10px;
+    background-color: $base-color;
+}
+
+.separator {
+    margin: 0;
+}
