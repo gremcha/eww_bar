@@ -5,8 +5,9 @@
 
 (defvar date_revealed false)
 
-(deflisten workspace "src/workspaces.sh")
-(deflisten pulseaudio-volume "src/pulseaudio.sh")
+(deflisten keyboard-layout "widget_scripts/keyboard.sh")
+(deflisten workspace "widget_scripts/workspaces.sh")
+(deflisten pulseaudio-volume "widget_scripts/pulseaudio.sh")
 
 
 (defwidget date []
@@ -83,7 +84,10 @@
     :halign "center"
     :vexpand "false"
     :hexpand "true"
-
+    :space-evenly "false"
+    :spacing 5
+      (keyboard)
+      (separator)
       (date)
       ))
 
@@ -118,6 +122,11 @@
     'Sound: ${pulseaudio-volume}'
   )
 )
+
+(defwidget keyboard []
+  (box    
+      '${keyboard-layout}'))
+
 
 (defwidget separator []
   (box    
